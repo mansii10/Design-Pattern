@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        var $ = (function (fn) {
+            fn.prototype.addClass = function (className) {
+                this.element.className = className;
+                return this;
+            };
+            fn.prototype.appendTo = function (domObject) {
+                domObject.appendChild(this.element);
+                return this;
+            };
+            return fn;
+        })(function _$(inp) {
+            // check if the function is being run as a constructor
+            // if no, get the tagname and create the element and then run $ as a constructor
+            // with the newly created dom element
+            // if yes, create a new jQuery object by using the $ as a constructor and the
+            // dom element as a property to be encapsulated
+            if (!(this instanceof _$)) {
+                var tag = /<([^>]+)/gmi.exec(inp)[1];
+                var element = document.createElement(tag);
+                console.log('Executing $ as a function, not a constructor');
+                console.log('created the dom element, and invoking $ again as a constructor');
+                return new _$(element);
+            } else {
+                console.log('Executing $ as a constructor');
+                this.element = inp; // --> scope for a private member pattern
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            $('<div>').appendTo(document.body).addClass('Person');
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>
