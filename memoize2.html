@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        function makeAjaxCall(url, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.addEventListener('readystatechange', function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    callback(xhr);
+                }
+            });
+            xhr.send();
+        }
+        makeAjaxCall('https://api.github.com/search/repositories?q=nodejs', function (xhr) {
+            console.log(JSON.parse(xhr.responseText));
+        });
+        makeAjaxCall('https://api.github.com/search/repositories?q=nodejs', function (xhr) {
+            console.log(JSON.parse(xhr.responseText));
+        });
+        makeAjaxCall('https://api.github.com/search/repositories?q=nodejs', function (xhr) {
+            console.log(JSON.parse(xhr.responseText));
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>
