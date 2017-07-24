@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        // Immediately Invoked Function Expression
+        (function (){
+            console.log('Hello World');
+            console.log(this);
+        }());
+        ({
+            name: 'Aditya',
+            sayHello: function () {
+                console.log('Hello World from ' + this.name);
+            }
+        }).sayHello();
+    </script>
+</head>
+<body>
+
+</body>
+</html>
