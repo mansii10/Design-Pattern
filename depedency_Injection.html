@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        // Dependency injection
+        // Setup for DI
+        function DI() {
+            this.dependencies = {};
+        }
+        DI.prototype.register = function (name, object) {
+            this.dependencies[name] = object;
+        };
+        DI.prototype.resolve = function () {
+            var self = this;
+            // figure out the argumens --> function to be invoked and the parameters
+            var args = Array.prototype.slice.call(arguments);
+            var fn = args.shift(); // this is the function to be invoked
+            // figure out the parameters
+            var params = getNamedParameters(fn);
+            // find which ones are dependencies
+            // loop over each parameter and if found as a prop in dependencies,
+            // add it to a new array (fn_args)
+            // else pick the next value in the arguments object and add it to fn_args
+            var fn_args = params.map(function (param) {
+                return param in self.dependencies ? self.dependencies[param] : args.shift();
+            });
+            // console.log(fn_args);
+            fn.apply(null, fn_args);
+        };
+        function getNamedParameters(fn) {
+            // returns the named parameters of a function
+            // input: function, output: an array of parameter names
+            return fn.toString().match(/^\s?function\s[^(]+\(([^)]+)/i)[1]
+                    .split(',').map(function (param) { return param.trim(); });
+            // you can replace the split
+            // and the trim with a regular expression in the base.
+        }
+        function test(car, v) {
+            console.log(car);
+            console.log(v);
+        }
+        // Invocation
+        var di = new DI();
+        di.register('car', { make: 'McLaren' });
+        console.log(di.dependencies);
+        di.resolve(test, 8);
+    </script>
+</head>
+<body>
+
+</body>
+</html>
