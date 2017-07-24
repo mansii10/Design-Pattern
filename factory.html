@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        // Simple factory
+        var cars = ['Audi', 'Totyota', 'Nissan'];
+        var Carfactory = (function () {
+            function CarFactory(constr) {
+                return new Carfactory.constructors[constr]();
+            }
+            CarFactory.constructors = {
+                'Car': function () {
+                },
+                'Audi': function () {
+                    this.make = 'audi';
+                },
+                'Toyota': function () {
+                    this.make = 'toyota';
+                },
+                'Nissan': function () {
+                    this.make = 'nissan';
+                }
+            };
+            var Car = CarFactory.constructors['Car'];
+            Car.prototype.drive = function () {
+                console.log('vroom ... ');
+            };
+            // make all constructors inherit from Car
+            for (var prop in CarFactory.constructors) {
+                if (prop !== 'Car') {
+                    CarFactory.constructors[prop].prototype = new Car();
+                    CarFactory.constructors[prop].prototype.constructor = CarFactory.constructors[prop];
+                }
+            }
+            return CarFactory;
+        }());
+        var audi = Carfactory('Audi');
+        console.log(audi.make);
+        audi.drive();
+    </script>
+</head>
+<body>
+
+</body>
+</html>
