@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        var Github = (function (_url) {
+            return {
+                get url() {
+                    return _url;
+                },
+                init: function (str) {
+                    var modules = str.split('.');
+                    if (!modules.length) return;
+                    if (modules[0] === 'Github') modules.shift();
+                    console.log(modules);
+                    return modules.reduce(function (parent, moduleName) {
+                        if (typeof parent[moduleName] === 'undefined') parent[moduleName] = {};
+                        return parent[moduleName];
+                    }, Github);
+                }
+            };
+        }('https://api.github.com'));
+        console.log(Github);
+    </script>
+</head>
+<body>
+
+</body>
+</html>
