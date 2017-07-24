@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        function Person(id) {
+            Object.defineProperty(this, 'id', {
+                get: function () {
+                    return id;
+                }
+            });
+            this.printid = function () {
+                console.log(id);
+            };
+        }
+        var jui = new Person('J123');
+        console.log(jui.id);
+        Object.defineProperty(jui, 'id', {
+            get: function () {
+                return 'Compromised';
+            }
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>
