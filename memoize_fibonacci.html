@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        function memoize( fn ) {
+                   return function () {
+                   var args = Array.prototype.slice.call(arguments), hash = "", i = args.length;
+                   currentArg = null;
+                    while (i--) {
+                    currentArg = args[i];
+                    hash += (currentArg === Object(currentArg)) ?
+                            JSON.stringify(currentArg) : currentArg;
+                    fn.memoize || (fn.memoize = {});
+                }
+                        return (hash in fn.memoize) ? fn.memoize[hash] :
+                        fn.memoize[hash] = fn.apply(this, args);
+            };
+        }
+        function fib( x ) {
+            if(x < 2) return 1; else return fib(x-1) + fib(x-2);
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>
