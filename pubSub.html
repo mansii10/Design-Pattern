@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        // Simple publisher subscriber pattern
+        // Note: In an actual pub sub pattern, the publisher will have established events. The
+        //  subscribers cannot add custom events onto the publisher
+        // Strictly speaking the publishers cannot be aware of who the subscribers are and the
+        // subscribers should respond to the event only, independent of who the publisher is.
+        function Publisher() {
+            this.events = {};
+        }
+        Publisher.prototype.publish = function(eventName) {
+            // loop over all the events and publish it
+            var fns = this.events[eventName];
+            fns.forEach(function (fn) {
+                fn();
+            });
+        };
+        function Subscriber() {}
+        Subscriber.prototype.subscribe = function(publisher, eventName, callback) {
+            publisher.events[eventName] = publisher.events[eventName] || [];
+            publisher.events[eventName].push(callback);
+        };
+        var user = new Publisher();
+        var engine = new Subscriber();
+        var brakes = new Subscriber();
+        engine.subscribe(user, 'stop', function () {
+            console.log('slowing engine down ... ');
+        });
+        brakes.subscribe(user, 'stop', function () {
+            console.log('slowing the car down ... ');
+        });
+        user.publish('stop');
+    </script>
+</head>
+<body>
+
+</body>
+</html>
